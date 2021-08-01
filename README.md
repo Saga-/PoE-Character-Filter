@@ -3,4 +3,4 @@ This is a simple script that adds the ability to filter characters depending on 
 
 Requires a userscript extension for your browser (such as Tampermonkey for Chrome or Violentmonkey for Firefox).
 
-[Click to install]()
+[Click to install](https://raw.githubusercontent.com/Saga-/PoE-Character-Filter/master/filterCharacters_userscript.js)

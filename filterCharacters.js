@@ -15,7 +15,8 @@ characters.map(character => {
 const header = document.querySelector('h2');
 const selectBox = document.createElement('select');
 selectBox.id = 'filterCharacters';
-header.appendChild(selectBox);
+header.parentNode.insertBefore(selectBox, header.nextSibling);
+
 
 const leagues = Object.keys(leagueObj).sort();
 // const allOption = document.createElement('option');

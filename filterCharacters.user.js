@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 
-waitForKeyElements('.character.active', (el) => {
+waitForKeyElements('.characters', () => {
     const CHARACTER_SECTION_CLASS = '.character';
     const LEAGUE_CLASS = '.infoLine3';
     const NAME_CLASS = '.infoLine1';
@@ -62,6 +62,9 @@ waitForKeyElements('.character.active', (el) => {
             });
         }
     });
+
+    // Delete second select box due to bug with the waitForKeyElement function
+    document.querySelectorAll('select')[1].remove();
 
     function toggleShowHide(character) {
         character.style.display = character.style.display === '' ? 'none' : ''

@@ -1,10 +1,23 @@
-const characters = Array.from(document.querySelectorAll('.character'));
+const CHARACTER_SECTION_CLASS = '.character';
+const LEAGUE_CLASS = '.infoLine3';
+const NAME_CLASS = '.infoLine1';
+const NAME_HEADER = 'h2';
+const ALL_VALUE = '--ALL--';
 
 let leagueObj = {};
 
+// Get list of characters
+const characters = Array.from(document.querySelectorAll(CHARACTER_SECTION_CLASS));
+
+// Insert select box underneath Characters header
+const header = document.querySelector(NAME_HEADER);
+const selectBox = document.createElement('select');
+header.parentNode.insertBefore(selectBox, header.nextSibling);
+
+// Add list of characters to an object, with their league as the key
 characters.map(character => {
-    const league = character.querySelector('.infoLine3').textContent;
-    const charName = character.querySelector('.infoLine1').textContent;
+    const league = character.querySelector(LEAGUE_CLASS).textContent;
+    const charName = character.querySelector(NAME_CLASS).textContent;
     if (leagueObj.hasOwnProperty(league)) {
         leagueObj[league].push(charName);
     } else {
@@ -12,19 +25,10 @@ characters.map(character => {
     }
 });
 
-const header = document.querySelector('h2');
-const selectBox = document.createElement('select');
-selectBox.id = 'filterCharacters';
-header.parentNode.insertBefore(selectBox, header.nextSibling);
-
-
+// Sort the leagues by alphabetical order and add an 'ALL' option at the beginning
 const leagues = Object.keys(leagueObj).sort();
-// const allOption = document.createElement('option');
-// allOption.value = 'ALL';
-// allOption.text = '--ALL--';
-// selectBox.appendChild(allOption);
-leagues.unshift('--ALL--');
-
+leagues.unshift(ALL_VALUE);
+// Add leagues to the select box
 leagues.forEach(league => {
     const option = document.createElement('option');
     option.value = league;
@@ -32,31 +36,20 @@ leagues.forEach(league => {
     selectBox.appendChild(option);
 });
 
-// selectBox.addEventListener('change', $event => {
-//     console.log($event);
-// })
 
-
+// Listen for a change event, reset the options so that all are shown to be filtered again with the chosen league
 selectBox.addEventListener('change', () => {
     resetCharacters();
-    const selectedValue = selectBox.selectedIndex;
-    console.log(selectBox.selectedIndex);
-    const selectedLeague = leagues[selectedValue];
-    if (selectedLeague !== '--ALL--') {
+    const selectedLeague = leagues[selectBox.selectedIndex];
+    if (selectedLeague !== ALL_VALUE) {
         characters.forEach(character => {
-            const leagueName = character.querySelector('.infoLine3').textContent;
-            console.log(`character leauge: ${leagueName}`);
-            console.log(`selected leauge: ${selectedLeague}`)
-            // console.log(leagueName);
-            // console.log(leagueName !== selectedLeague);
+            const leagueName = character.querySelector(LEAGUE_CLASS).textContent;
             if (leagueName !== selectedLeague) {
                 toggleShowHide(character)
             }
         });
     }
-
 });
-
 
 function toggleShowHide(character) {
     character.style.display = character.style.display === '' ? 'none' : ''
